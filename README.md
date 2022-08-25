@@ -3,6 +3,9 @@
 ## clone the repo from github
 ```git clone https://github.com/Azer5C74/Lumen-JWT-Auth```
 
+## make your .env file
+```cp .env.example .env```
+
 ## install dependencies
 ```cd Lumen-JWT-Auth``` </br>
 ```composer install```

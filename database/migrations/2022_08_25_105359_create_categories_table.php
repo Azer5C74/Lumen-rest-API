@@ -17,6 +17,9 @@ class CreateCategoriesTable extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->string('slug')->unique();
+            $table->foreign('user_id')
+                ->references('id')->on('users')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

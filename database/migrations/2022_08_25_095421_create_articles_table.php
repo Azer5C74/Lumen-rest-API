@@ -19,6 +19,9 @@ class CreateArticlesTable extends Migration
             $table->string("slug")->unique();
             $table->string("description");
             $table->string("link");
+            $table->foreign('user_id')
+                ->references('id')->on('users')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

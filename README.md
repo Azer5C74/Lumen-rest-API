@@ -1,14 +1,14 @@
 # Running the project
 
 ## clone the repo from github
-git clone https://github.com/Azer5C74/Lumen-JWT-Auth
+```git clone https://github.com/Azer5C74/Lumen-JWT-Auth```
 
 ## install dependencies
-cd Lumen-JWT-Auth
-composer install
+```cd Lumen-JWT-Auth```
+```composer install```
 
 ## Generate JWT secret
-php artisan jwt:secret
+```php artisan jwt:secret```
 
 
 

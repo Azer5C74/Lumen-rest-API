@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class AuthController extends Controller
+class RegisterController extends Controller
 {
-    public function register(Request $request)
+    public function store(Request $request)
     {
         $name = $request->name;
         $email = $request->email;
@@ -41,57 +42,14 @@ class AuthController extends Controller
             $user->password = app('hash')->make($request->password);
 
             if ($user->save()) {
-                return $this->login($request);
+                return LoginController::store($request);
             }
         } catch (\Exception $e) {
             return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
         }
     }
 
-    /**
-     * Log the user out (Invalidate the token).
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function logout()
-    {
-        auth()->logout();
 
-        return response()->json(['message' => 'Successfully logged out']);
-    }
 
-    public function login(Request $request)
-    {
-        $email = $request->email;
-        $password = $request->password;
 
-        // Check if field is empty
-        if (empty($email) or empty($password)) {
-            return response()->json(['status' => 'error', 'message' => 'You must fill all the fields']);
-        }
-
-        $credentials = request(['email', 'password']);
-
-        if (!$token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
-
-        return $this->respondWithToken($token);
-    }
-
-    /**
-     * Get the token array structure.
-     *
-     * @param string $token
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    protected function respondWithToken($token)
-    {
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
-        ]);
-    }
 }

@@ -19,11 +19,11 @@ $router->get('/', function () use ($router) {
 
 
 $router->group(['prefix' => 'api'], function () use ($router) {
-    $router->post('/register', 'AuthController@register');
-    $router->post('/login', 'AuthController@login');
+    $router->post('/register', 'Auth\RegisterController@store');
+    $router->post('/login', 'Auth\LoginController@store');
 
     $router->group(['middleware' => 'auth'], function () use ($router) {
-        $router->post('/logout', 'AuthController@logout');
+        $router->post('/logout', 'Auth\LogoutController@store');
         $router->get('/posts', 'PostController@index');
         $router->post('/posts', 'PostController@store');
         $router->put('/posts/{id}', 'PostController@update');

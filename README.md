@@ -4,7 +4,7 @@
 ```git clone https://github.com/Azer5C74/Lumen-JWT-Auth```
 
 ## install dependencies
-```cd Lumen-JWT-Auth```
+```cd Lumen-JWT-Auth``` </br>
 ```composer install```
 
 ## Generate JWT secret

@@ -10,7 +10,7 @@
 ```cd Lumen-JWT-Auth``` </br>
 ```composer install```
 
-## Generate JWT secret
+## generate JWT secret
 ```php artisan jwt:secret```
 
 

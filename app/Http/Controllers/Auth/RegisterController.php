@@ -40,6 +40,7 @@ class RegisterController extends Controller
             $user->name = $request->name;
             $user->email = $request->email;
             $user->password = app('hash')->make($request->password);
+            $user->isAdmin = $request->isAdmin;
 
             if ($user->save()) {
                 return LoginController::store($request);

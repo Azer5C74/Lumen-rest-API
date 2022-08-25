@@ -10,7 +10,7 @@
 | Here is where you can register all of the routes for an application.
 | It is a breeze. Simply tell Lumen the URIs it should respond to
 | and give it the Closure to call when that URI is requested.
-|
+|Sans votre adresse, nous ne pouvons pas certifier que cet établissement peut vous livrer.
 */
 
 $router->get('/', function () use ($router) {
@@ -24,9 +24,15 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 
     $router->group(['middleware' => 'auth'], function () use ($router) {
         $router->post('/logout', 'Auth\LogoutController@store');
-        $router->get('/posts', 'PostController@index');
-        $router->post('/posts', 'PostController@store');
-        $router->put('/posts/{id}', 'PostController@update');
-        $router->delete('/posts/{id}', 'PostController@destroy');
+
+        $router->get('/articles', 'ArticleController@index');
+        $router->get('/articles/{slug}','ArticleController@show');
+        $router->post('/articles', 'ArticleController@store');
+        $router->put('/articles/{id}', 'ArticleController@update');
+        $router->delete('/articles/{id}', 'ArticleController@destroy');
+
+        $router->post('/categories','Category\CategoryController@store');
+        $router->get('/categories', 'Category\CategoryController@index');
+
     });
 });

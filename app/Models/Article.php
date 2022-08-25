@@ -7,5 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
 {
+
     use HasFactory;
+    protected $with = ['category', 'author'];
+    protected $fillable=['name','slug','description','link'];
+
+    public function category(){
+        return $this->belongsTo(Category::class);
+    }
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

@@ -19,20 +19,28 @@ $router->get('/', function () use ($router) {
 
 
 $router->group(['prefix' => 'api'], function () use ($router) {
-    $router->post('/register', 'Auth\RegisterController@store');
-    $router->post('/login', 'Auth\LoginController@store');
+
+    $router->group(['namespace'=>'Auth'], function () use ($router) {
+        $router->post('/register', 'RegisterController@store');
+        $router->post('/login', 'LoginController@store');
+    });
 
     $router->group(['middleware' => 'auth'], function () use ($router) {
+
+
+            $router->get('/articles', 'ArticleController@index');
+            $router->get('/articles/{slug}', 'ArticleController@show');
+            $router->post('/articles', 'ArticleController@store');
+            $router->put('/articles/{id}', 'ArticleController@update');
+            $router->delete('/articles/{id}', 'ArticleController@destroy');
+
         $router->post('/logout', 'Auth\LogoutController@store');
 
-        $router->get('/articles', 'ArticleController@index');
-        $router->get('/articles/{slug}','ArticleController@show');
-        $router->post('/articles', 'ArticleController@store');
-        $router->put('/articles/{id}', 'ArticleController@update');
-        $router->delete('/articles/{id}', 'ArticleController@destroy');
 
         $router->post('/categories','Category\CategoryController@store');
         $router->get('/categories', 'Category\CategoryController@index');
+        $router->get('/categories/{category_id}','Category\CategoryController@show');
+
 
     });
 });

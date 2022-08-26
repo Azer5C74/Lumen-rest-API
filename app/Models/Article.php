@@ -9,13 +9,13 @@ class Article extends Model
 {
 
     use HasFactory;
-    protected $with = ['category', 'author'];
-    protected $fillable=['name','slug','description','link'];
+    protected $with = ['category'];
+    protected $fillable=['name','slug','description','link','category_id'];
 
     public function category(){
         return $this->belongsTo(Category::class);
     }
-    public function author()
+    public function created_by()
     {
         return $this->belongsTo(User::class, 'user_id');
     }

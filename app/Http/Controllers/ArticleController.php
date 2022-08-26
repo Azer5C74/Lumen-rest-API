@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -20,11 +21,11 @@ class ArticleController extends Controller
             'slug' => 'required'
         );
         $messages = array(
-            'slug.required' => 'id is required.'
+            'slug.required' => 'slug is required.'
         );
         $validator = Validator::make(array('slug' => $slug), $rules, $messages);
         if (!$validator->fails()) {
-            return response()->json(Article::find($request->input('slug')));
+            return response()->json(Article::find($slug));
 
         } else {
             $errors = $validator->errors();
@@ -40,11 +41,14 @@ class ArticleController extends Controller
             $article->slug = $request->slug;
             $article->link = $request->link;
             $article->description = $request->description;
+            $article->category_id = $request->category_id;
 
             // Check if article already exist
             if (Article::where('title', '=', $article->title)->exists()) {
                 return response()->json(['status' => 'error', 'message' => 'Article already exists with this title']);
             }
+
+
             if ($article->save()) {
                 return response()->json(['status' => 'success', 'message' => 'Article Created Successfully']);
             }

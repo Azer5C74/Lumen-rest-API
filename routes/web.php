@@ -27,19 +27,21 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 
     $router->group(['middleware' => 'auth'], function () use ($router) {
 
+$router->group(['namespace'=>'Article'], function () use ($router){
+    $router->get('/articles', 'ArticleController@index');
+    $router->get('/articles/{slug}', 'ArticleController@show');
+    $router->post('/articles', 'ArticleController@store');
+    $router->put('/articles/{id}', 'ArticleController@update');
+    $router->delete('/articles/{id}', 'ArticleController@destroy');
 
-            $router->get('/articles', 'ArticleController@index');
-            $router->get('/articles/{slug}', 'ArticleController@show');
-            $router->post('/articles', 'ArticleController@store');
-            $router->put('/articles/{id}', 'ArticleController@update');
-            $router->delete('/articles/{id}', 'ArticleController@destroy');
+});
 
         $router->post('/logout', 'Auth\LogoutController@store');
 
 
         $router->post('/categories','Category\CategoryController@store');
         $router->get('/categories', 'Category\CategoryController@index');
-        $router->get('/categories/{category_id}','Category\CategoryController@show');
+        $router->get('/categories/{id}','Category\CategoryController@show');
 
 
     });

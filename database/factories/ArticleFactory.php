@@ -15,7 +15,8 @@ class ArticleFactory extends Factory
           'slug' => $this->faker->sentence,
             'description' => $this->faker->paragraph,
             'link'=> $this->faker->url,
-            'category_id'=> 2
+            'category_id'=> 1,
+
         ];
         // TODO: Implement definition() method.
     }

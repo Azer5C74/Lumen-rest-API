@@ -20,7 +20,7 @@ class CreateArticlesTable extends Migration
             $table->string("description");
             $table->string("link");
             $table->foreignId('category_id');
-
+           // $table->foreignId()
             $table->timestamps();
         });
     }

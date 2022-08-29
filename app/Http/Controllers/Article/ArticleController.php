@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Article;
 
+use App\Http\Controllers\Controller;
 use App\Models\Article;
-use App\Models\Category;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+//use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class ArticleController extends Controller
 {
@@ -25,7 +26,7 @@ class ArticleController extends Controller
         );
         $validator = Validator::make(array('slug' => $slug), $rules, $messages);
         if (!$validator->fails()) {
-            return response()->json(Article::find($slug));
+            return response()->json(Article::findOrFail($slug));
 
         } else {
             $errors = $validator->errors();
@@ -36,35 +37,37 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         try {
-            $article = new Article();
-            $article->title = $request->title;
-            $article->slug = $request->slug;
-            $article->link = $request->link;
-            $article->description = $request->description;
-            $article->category_id = $request->category_id;
-
-            // Check if article already exist
-            if (Article::where('title', '=', $article->title)->exists()) {
-                return response()->json(['status' => 'error', 'message' => 'Article already exists with this title']);
-            }
+            $rules =[
+                'title' =>'required|unique:articles|max:255',
+                'slug' => 'required|unique:articles|max:5',
+                'description'=>'max:255',
+                'link' => 'max:255',
+                'category_id'=>['required',Rule::exists('categories','id')]
+            ];
 
 
-            if ($article->save()) {
-                return response()->json(['status' => 'success', 'message' => 'Article Created Successfully']);
+        $this->validate($request,$rules);
+            if (Article::create($request->all())) {
+                return response()->json(['status' => 'success', 'message' => 'Article Created Successfully',"date"=>$request->all()]);
             }
         } catch (\Exception $e) {
             return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug)
     {
         try {
-            $article = Article::findOrFail($id);
-            $article->title = $request->title;
-            $article->link = $request->link;
-            $article->slug = $request->slug;
-            $article->description = $request->description;
+            $article = Article::findOrFail($slug);
+            $rules =[
+                'title' =>'required|unique:articles|max:255',
+                'slug' => 'required|unique:articles|max:5',
+                'description'=>'max:255',
+                'link' => 'max:255',
+                'category_id'=>['required',Rule::exists('categories','id')]
+            ];
+            $this->validate($request,$rules);
+            $article->fill($request->all());
 
             if ($article->save()) {
                 return response()->json(['status' => 'success', 'message' => 'Article Updated Successfully']);
@@ -74,15 +77,10 @@ class ArticleController extends Controller
         }
     }
 
-    public function destroy(Request $request, $id)
+    public function destroy($id)
     {
         try {
-            $article = Article::findOrFail($id);
-            $article->title = $request->title;
-            $article->link = $request->link;
-            $article->slug = $request->slug;
-            $article->description = $request->description;
-
+          $article = Article::findOrFail($id);
             if ($article->delete()) {
                 return response()->json(['status' => 'success', 'message' => 'Article Deleted Successfully']);
             }

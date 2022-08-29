@@ -37,7 +37,7 @@ $router->group(['namespace'=>'Article'], function () use ($router){
 });
 
         $router->post('/logout', 'Auth\LogoutController@store');
-
+        $router->get('/users/{id}','Auth\UserDetails@show');
 
         $router->post('/categories','Category\CategoryController@store');
         $router->get('/categories', 'Category\CategoryController@index');

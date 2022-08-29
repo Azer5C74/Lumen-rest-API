@@ -39,10 +39,11 @@ class ArticleController extends Controller
         try {
             $rules =[
                 'title' =>'required|unique:articles|max:255',
-                'slug' => 'required|unique:articles|max:5',
+                'slug' => 'required|unique:articles|max:20',
                 'description'=>'max:255',
                 'link' => 'max:255',
-                'category_id'=>['required',Rule::exists('categories','id')]
+                'category_id'=>['required',Rule::exists('categories','id')],
+                'user_id'=>['required', Rule::exists('users','id')]
             ];
 
 

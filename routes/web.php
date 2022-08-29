@@ -40,6 +40,7 @@ $router->group(['namespace'=>'Article'], function () use ($router){
         $router->get('/users/{id}','Auth\UserDetails@show');
 
         $router->post('/categories','Category\CategoryController@store');
+        $router->delete('/categories/{slug}','Category\CategoryController@destroy');
         $router->get('/categories', 'Category\CategoryController@index');
         $router->get('/categories/{id}','Category\CategoryController@show');
 

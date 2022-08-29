@@ -39,8 +39,8 @@ class CategoryController extends Controller
     {
         try {
             $rules = [
-                'name' => 'required|unique:categories|max:5',
-                'slug' => 'required|unique:categories|max:5',
+                'name' => 'required|unique:categories|max:10',
+                'slug' => 'required|unique:categories|max:10',
 
             ];
             $this->validate($request, $rules);

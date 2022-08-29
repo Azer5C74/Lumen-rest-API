@@ -19,8 +19,8 @@ class CreateArticlesTable extends Migration
             $table->string("slug")->unique();
             $table->string("description");
             $table->string("link");
-            $table->foreignId('category_id');
-           // $table->foreignId()
+            $table->unsignedInteger('category_id');
+            $table->unsignedInteger('user_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

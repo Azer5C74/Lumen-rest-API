@@ -22,7 +22,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $fillable = [
         'name', 'email','password', 'isAdmin'
     ];
-    public function article()
+    public function articles()
     {
         return $this->hasMany(Article::class);
     }

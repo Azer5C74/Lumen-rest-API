@@ -20,30 +20,38 @@ $router->get('/', function () use ($router) {
 
 $router->group(['prefix' => 'api'], function () use ($router) {
 
-    $router->group(['namespace'=>'Auth'], function () use ($router) {
+    $router->group(['namespace' => 'Auth'], function () use ($router) {
         $router->post('/register', 'RegisterController@store');
         $router->post('/login', 'LoginController@store');
     });
 
     $router->group(['middleware' => 'auth'], function () use ($router) {
 
-$router->group(['namespace'=>'Article'], function () use ($router){
-    $router->get('/articles', 'ArticleController@index');
-    $router->get('/articles/{slug}', 'ArticleController@show');
-    $router->post('/articles', 'ArticleController@store');
-    $router->put('/articles/{id}', 'ArticleController@update');
-    $router->delete('/articles/{id}', 'ArticleController@destroy');
+        $router->group(['namespace' => 'Article'], function () use ($router) {
+            $router->get('/articles', 'ArticleController@index');
+            $router->get('/articles/{slug}', 'ArticleController@show');
+            $router->post('/articles', 'ArticleController@store');
+            $router->put('/articles/{id}', 'ArticleController@update');
+            $router->delete('/articles/{id}', 'ArticleController@destroy');
 
-});
+        });
+        $router->group(['namespace' => 'Auth'], function () use ($router) {
+            $router->post('/logout', 'LogoutController@store');
+            $router->get('/users/me', 'UserDetails@show');
+        });
 
-        $router->post('/logout', 'Auth\LogoutController@store');
-        $router->get('/users/{id}','Auth\UserDetails@show');
+        $router->group(['namespace' => 'Category'], function () use ($router) {
 
-        $router->post('/categories','Category\CategoryController@store');
-        $router->delete('/categories/{slug}','Category\CategoryController@destroy');
-        $router->get('/categories', 'Category\CategoryController@index');
-        $router->get('/categories/{id}','Category\CategoryController@show');
+            $router->post('/categories', 'CategoryController@store');
+            $router->delete('/categories/{slug}', 'CategoryController@destroy');
+            $router->get('/categories', 'CategoryController@index');
+            $router->get('/categories/{id}', 'CategoryController@show');
+        });
 
+        $router->group(['middleware' => 'isAdmin'], function () use ($router) {
+            $router->group(['namespace' => 'Admin'], function () use ($router) {
+            $router->get('/users', 'AdminController@index');
 
+        });});
     });
 });

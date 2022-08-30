@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Article;
 use App\Http\Controllers\Controller;
 use App\Models\Article;
 use Illuminate\Http\Request;
-//use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 class ArticleController extends Controller
@@ -16,7 +16,7 @@ class ArticleController extends Controller
     }
 
 
-    public function show(Request $request, $slug)
+    public function show($slug)
     {
         $rules = array(
             'slug' => 'required'
@@ -26,7 +26,7 @@ class ArticleController extends Controller
         );
         $validator = Validator::make(array('slug' => $slug), $rules, $messages);
         if (!$validator->fails()) {
-            return response()->json(Article::findOrFail($slug));
+            return response()->json(Article::with('category')->findOrFail($slug));
 
         } else {
             $errors = $validator->errors();

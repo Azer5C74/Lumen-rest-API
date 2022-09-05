@@ -7,7 +7,6 @@
 ```cp .env.example .env```
 
 ## install dependencies
-```cd Lumen-JWT-Auth``` </br>
 ```composer install```
 
 ## generate JWT secret
